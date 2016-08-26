@@ -7,23 +7,26 @@ from django.urls import reverse
 
 
 def login(request):
-    if request.POST:
+    if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
         query = User.objects.get(email=email)
+        global username
+        username = query.name
         if password == query.password:
-            return render(request, 'zhihu/index.html')
-        else:
-            return render(request, 'zhihu/login.html')
+            return HttpResponseRedirect(reverse('zhihu:index'))
+    else:
+        return render(request, 'zhihu/login.html')
 
-    return render(request, 'zhihu/login.html')
+    # return render(request, 'zhihu/login.html')
 
 
 def reg(request):
-    if request.POST:
+    if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
-        query = User(email=email, password=password)
+        name = request.POST['name']
+        query = User(email=email, password=password, name=name)
         query.save()
         return render(request, 'zhihu/login.html')
     else:
@@ -31,4 +34,8 @@ def reg(request):
 
 
 def index(request):
-    return render(request, 'zhihu/index.html')
+    global username
+    return render(request, 'zhihu/index.html', {'name': username})
+
+
+# def get_username():
