@@ -8,7 +8,15 @@
 </head>
 <body>
     {% block content %}
+
     {% endblock %}
+     {% block message %}
+ <!--    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</li>{% endfor %}</ul>
+    {% endif %}
+    {% endblock %} -->
     <link rel="stylesheet" type="text/css" href="{% static 'zhihu/bootstrap/css/bootstrap.min.css' %}" />
 </body>
 </html>

@@ -1,0 +1,4 @@
+*.py[cod]
+*.so
+/mysite/mysite/__pycache__/*
+/mysite/mysite/__pycache__

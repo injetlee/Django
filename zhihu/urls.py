@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.auth.views import login, logout
 from zhihu import views
 app_name = 'zhihu'
 urlpatterns = [
