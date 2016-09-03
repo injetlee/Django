@@ -8,8 +8,9 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login as loginin
 from itsdangerous import URLSafeSerializer
 from django.conf import settings as django_settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives,  EmailMessage
 from django.contrib import messages
+from django.template import loader, Context
 
 
 def login(request):
@@ -41,12 +42,15 @@ def reg(request):
 
         query = User.objects.create_user(
             email=email, password=password, username=username)
-        #query.is_active = False
+        query.is_active = False
         query.save()
         token = token_confirm.generate_token(username)
-        send_mail('caohu', token, 'liyingjie26@126.com',
-                  [email], fail_silently=False)
-        messages.add_message(request, messages.SUCCESS, '注册成功，欢迎登录')
+        context = {'username': username,
+                   'token': 'http://127.0.0.1:8000/zhihu/active/%s' % token, }
+        t = loader.get_template('zhihu/email.html')
+        html_content = t.render(Context(context))
+        send_mail('caohu', [email], 'liyingjie26@126.com', html_content)
+        messages.add_message(request, messages.SUCCESS, '注册成功，请前往邮箱进行激活后登录')
 
         return redirect(reverse('zhihu:login'))
     else:
@@ -58,10 +62,30 @@ def index(request):
         username = request.user.username
         return render(request, 'zhihu/index.html', {'name': username})
     else:
+        messages.add_message(request, messages.SUCCESS, '激活成功，欢迎登录')
         return HttpResponseRedirect(reverse('zhihu:login'))
 
 
-def active(token):
+# def active(request, token):
+#     # try:
+#     username = token_confirm.confirm_token(token)
+#     # except:
+#     #     username = token_confirm.remove_token(token)
+#     #     user = User.objects.filter(username)
+#     #     for i in user:
+#     #         user.delete()
+#     #     return render(request, 'zhihu/login.html')
+
+#     # try:
+#     user = User.objects.get(username=username)
+#     # except User.DoesNotExist:
+#     #     return render(request, 'zhihu/login.html')
+#     user.is_active = True
+#     user.save()
+#     return redirect(reverse('zhihu:index'))
+
+
+def active(request, token):
     try:
         username = token_confirm.confirm_token(token)
     except:
@@ -77,9 +101,29 @@ def active(token):
         return render(request, 'zhihu/login.html')
     user.is_active = True
     user.save()
-    return render(request, 'zhihu/index.html')
+    return redirect(reverse('zhihu:index'))
 
     # def get_username():
+# def active(request, token):
+#     a = token
+#     c = Token(django_settings.SECRET_KEY)
+#     d = c.generate_token(a)
+#     f = c.confirm_token(a)
+#     #username = token_confirm.confirm_token(a)
+#     #username = token_confirm.remove_token(token)
+#     # print(username)
+#     # user = User.objects.filter(username)
+#     #     for i in user:
+#     #         user.delete()
+#     #     return render(request, 'zhihu/login.html')
+
+#     # try:
+#     #     user = User.objects.get(username=username)
+#     # except User.DoesNotExist:
+#     #     return render(request, 'zhihu/login.html')
+#     # user.is_active = True
+#     # user.save()
+#     return render(request, 'zhihu/index.html', {'token': f})
 
 
 class Token:
@@ -93,9 +137,9 @@ class Token:
         token = s.dumps(email)
         return token
 
-    def confirm_token(self, token, expiration=3600):
+    def confirm_token(self, token):
         s = URLSafeSerializer(self.secret_key)
-        result = s.loads(token, max_age=expiration)
+        result = s.loads(token)
         return result
 
     def remove_token(self, token):
@@ -104,3 +148,10 @@ class Token:
 
     # def remove_token(self, token):
 token_confirm = Token(django_settings.SECRET_KEY)
+
+
+def send_mail(subject, to, from_email, html_content):
+    msg = EmailMessage(subject, html_content, from_email, to)
+    #msg.attach_alternative(html_content, 'text/html')
+    msg.content_subtype = "html"
+    msg.send()
