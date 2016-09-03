@@ -7,16 +7,21 @@
     <title>{% block title %}Zhiyyhu{% endblock %}</title>
 </head>
 <body>
-    {% block content %}
-
-    {% endblock %}
-     {% block message %}
- <!--    {% if messages %}
-    <ul class="messages">
+<!-- {% block messages %}
+        {% if messages %}
+    <ul class="alert alert-success">
         {% for message in messages %}
             <li{% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</li>{% endfor %}</ul>
     {% endif %}
     {% endblock %} -->
+    {% block content %}
+
+    <h1>hello world</h1>
+
+    {% endblock %}
+<!--      {% block message %} -->
+
+ <!--    {% endblock %} -->
     <link rel="stylesheet" type="text/css" href="{% static 'zhihu/bootstrap/css/bootstrap.min.css' %}" />
 </body>
 </html>

@@ -2,6 +2,12 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
+    {% if messages %}
+        <ul class="alert alert-success">
+            {% for message in messages %}
+                {{message}}
+            {% endfor %}</ul>
+    {% endif %}
 <h1>登录成功</h1>
 <h2>欢迎{{name}}登入</h2>
 {% endblock %}

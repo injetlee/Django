@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
 
+
 {% block content %}
-<div style="margin:150px auto">
+
+  {% if messages %}
+    <ul class="alert alert-warning">
+      {% for message in messages %}
+        {{message}}
+      {% endfor %}</ul>
+  {% endif %}
+<div style="margin:auto">
 <div class="text-center">
   <h1 style="color:#286090;font-size:50pt">草&nbsp;乎</h1>
   <h2><small>与世界分享你的狗屁经验、见解</small></h2>
@@ -49,3 +57,4 @@
 </div>
 </div>
 {% endblock %}
+<h3>hehehehlalalalalla</h3>

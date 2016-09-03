@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
@@ -20,7 +20,8 @@ def login(request):
         if user.is_authenticated():
             if user.is_active:
                 loginin(request, user)
-        return HttpResponseRedirect(reverse('zhihu:index'))
+                messages.add_message(request, messages.SUCCESS, '登录成功，体验愉快')
+                return redirect(reverse('zhihu:index'))
     else:
         return render(request, 'zhihu/login.html')
 
@@ -32,15 +33,22 @@ def reg(request):
         email = request.POST['email']
         password = request.POST['password']
         username = request.POST['name']
+        user_exist = User.objects.filter(username=username)
+
+        if user_exist:
+            messages.add_message(request, messages.ERROR, '用户名已经被注册')
+            return render(request, 'zhihu/reg.html')
+
         query = User.objects.create_user(
             email=email, password=password, username=username)
         #query.is_active = False
         query.save()
-        send_mail('caohu', 'hello to caohu', 'liyingjie26@126.com',
-                  [email], fail_silently=False,)
-        # messages.add_message(request, messages.INFO, 'success helo')
+        token = token_confirm.generate_token(username)
+        send_mail('caohu', token, 'liyingjie26@126.com',
+                  [email], fail_silently=False)
+        messages.add_message(request, messages.SUCCESS, '注册成功，欢迎登录')
 
-        return HttpResponseRedirect(reverse('zhihu:login'))
+        return redirect(reverse('zhihu:login'))
     else:
         return render(request, 'zhihu/reg.html')
 
@@ -80,18 +88,18 @@ class Token:
         self.secret_key = secret_key
         #self.email = email
 
-    def generate_token(self):
-        s = URLSafeSerializer(secret_key)
-        token = s.dump(email)
+    def generate_token(self, email):
+        s = URLSafeSerializer(self.secret_key)
+        token = s.dumps(email)
         return token
 
     def confirm_token(self, token, expiration=3600):
-        s = URLSafeSerializer(secret_key)
+        s = URLSafeSerializer(self.secret_key)
         result = s.loads(token, max_age=expiration)
         return result
 
     def remove_token(self, token):
-        s = URLSafeSerializer(secret_key)
+        s = URLSafeSerializer(self.secret_key)
         return s.loads(token)
 
     # def remove_token(self, token):
