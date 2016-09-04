@@ -17,16 +17,19 @@ def login(request):
     if request.method == 'POST':
         username = request.POST['email']
         password = request.POST['password']
+        user_exist = User.objects.get(username=username)
         user = authenticate(username=username, password=password)
-        if user.is_authenticated():
-            if user.is_active:
-                loginin(request, user)
-                messages.add_message(request, messages.SUCCESS, '登录成功，体验愉快')
-                return redirect(reverse('zhihu:index'))
+        if user is not None:
+            loginin(request, user)
+            messages.add_message(request, messages.SUCCESS, '登录成功，体验愉快')
+            return redirect(reverse('zhihu:index'))
+        elif user_exist is not None and user is None:
+            messages.add_message(request, messages.SUCCESS, '未激活')
+            return redirect(reverse('zhihu:login'))
+        else:
+            return redirect(reverse('zhihu:reg'))
     else:
         return render(request, 'zhihu/login.html')
-
-    # return render(request, 'zhihu/login.html')
 
 
 def reg(request):
@@ -49,7 +52,8 @@ def reg(request):
                    'token': 'http://127.0.0.1:8000/zhihu/active/%s' % token, }
         t = loader.get_template('zhihu/email.html')
         html_content = t.render(Context(context))
-        send_mail('caohu', [email], 'liyingjie26@126.com', html_content)
+        send_mail('caohu', [email],
+                  django_settings.EMAIL_HOST_USER, html_content)
         messages.add_message(request, messages.SUCCESS, '注册成功，请前往邮箱进行激活后登录')
 
         return redirect(reverse('zhihu:login'))
@@ -66,25 +70,6 @@ def index(request):
         return HttpResponseRedirect(reverse('zhihu:login'))
 
 
-# def active(request, token):
-#     # try:
-#     username = token_confirm.confirm_token(token)
-#     # except:
-#     #     username = token_confirm.remove_token(token)
-#     #     user = User.objects.filter(username)
-#     #     for i in user:
-#     #         user.delete()
-#     #     return render(request, 'zhihu/login.html')
-
-#     # try:
-#     user = User.objects.get(username=username)
-#     # except User.DoesNotExist:
-#     #     return render(request, 'zhihu/login.html')
-#     user.is_active = True
-#     user.save()
-#     return redirect(reverse('zhihu:index'))
-
-
 def active(request, token):
     try:
         username = token_confirm.confirm_token(token)
@@ -93,37 +78,16 @@ def active(request, token):
         user = User.objects.filter(username)
         for i in user:
             user.delete()
-        return render(request, 'zhihu/login.html')
+        return render(request, 'zhihu/reg.html')
 
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        return render(request, 'zhihu/login.html')
+        return render(request, 'zhihu/reg.html')
     user.is_active = True
     user.save()
-    return redirect(reverse('zhihu:index'))
-
-    # def get_username():
-# def active(request, token):
-#     a = token
-#     c = Token(django_settings.SECRET_KEY)
-#     d = c.generate_token(a)
-#     f = c.confirm_token(a)
-#     #username = token_confirm.confirm_token(a)
-#     #username = token_confirm.remove_token(token)
-#     # print(username)
-#     # user = User.objects.filter(username)
-#     #     for i in user:
-#     #         user.delete()
-#     #     return render(request, 'zhihu/login.html')
-
-#     # try:
-#     #     user = User.objects.get(username=username)
-#     # except User.DoesNotExist:
-#     #     return render(request, 'zhihu/login.html')
-#     # user.is_active = True
-#     # user.save()
-#     return render(request, 'zhihu/index.html', {'token': f})
+    messages.add_message(request, messages.SUCCESS, '激活成功，欢迎登录')
+    return redirect(reverse('zhihu:login'))
 
 
 class Token:
