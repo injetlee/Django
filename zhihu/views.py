@@ -11,6 +11,21 @@ from django.conf import settings as django_settings
 from django.core.mail import EmailMultiAlternatives,  EmailMessage
 from django.contrib import messages
 from django.template import loader, Context
+import threading
+
+
+def run_thread(msg):
+    msg.send()
+
+
+def send_mail(subject, to, from_email, html_content):
+    msg = EmailMessage(subject, html_content, from_email, to)
+    #msg.attach_alternative(html_content, 'text/html')
+    msg.content_subtype = "html"
+    # msg.send()
+    thr = threading.Thread(target=run_thread, args=(msg,))
+    thr.start()
+    return thr
 
 
 def login(request):
@@ -52,6 +67,7 @@ def reg(request):
                    'token': 'http://127.0.0.1:8000/zhihu/active/%s' % token, }
         t = loader.get_template('zhihu/email.html')
         html_content = t.render(Context(context))
+
         send_mail('caohu', [email],
                   django_settings.EMAIL_HOST_USER, html_content)
         messages.add_message(request, messages.SUCCESS, '注册成功，请前往邮箱进行激活后登录')
@@ -112,10 +128,3 @@ class Token:
 
     # def remove_token(self, token):
 token_confirm = Token(django_settings.SECRET_KEY)
-
-
-def send_mail(subject, to, from_email, html_content):
-    msg = EmailMessage(subject, html_content, from_email, to)
-    #msg.attach_alternative(html_content, 'text/html')
-    msg.content_subtype = "html"
-    msg.send()
