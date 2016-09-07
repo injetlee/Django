@@ -7,7 +7,7 @@
 </head>
 <body>
     {% block nav %}
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-inverse" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -23,7 +23,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="{% url 'zhihu:index'%}">草乎</a></li>
+        <li class="active"><a href="{% url 'zhihu:index'%}"><font size=7 color="white">草</font></a></li>
         <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
@@ -62,7 +62,12 @@
 </nav>
 
     {% endblock %}
-        <link rel="stylesheet" type="text/css" href="{% static 'zhihu/bootstrap/css/bootstrap.min.css' %}" />
+    {% block content %}
+
+    {% endblock %}
+
+        <link rel="stylesheet" type="text/css" href="{% static 'zhihu/bootstrap/css/bootstrap.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'zhihu/style/my.css' %}"
 
 </body>
 </html>
