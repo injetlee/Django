@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 
 from django.urls import reverse
-from django.contrib.auth import authenticate, login as loginin
+from django.contrib.auth import authenticate, login as loginin, logout
 from itsdangerous import URLSafeSerializer
 from django.conf import settings as django_settings
 from django.core.mail import EmailMultiAlternatives,  EmailMessage
@@ -36,7 +37,7 @@ def login(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             loginin(request, user)
-            messages.add_message(request, messages.SUCCESS, '登录成功，体验愉快')
+            #messages.add_message(request, messages.SUCCESS, '登录成功，体验愉快')
             return redirect(reverse('zhihu:index'))
         elif user_exist is not None and user is None:
             messages.add_message(request, messages.SUCCESS, '未激活')
@@ -45,6 +46,11 @@ def login(request):
             return redirect(reverse('zhihu:reg'))
     else:
         return render(request, 'zhihu/login.html')
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'zhihu/login.html')
 
 
 def reg(request):
@@ -78,6 +84,7 @@ def reg(request):
         return render(request, 'zhihu/reg.html')
 
 
+@login_required(login_url='/zhihu/login/')
 def index(request):
     if request.user.is_authenticated():
         username = request.user.username
