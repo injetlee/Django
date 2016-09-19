@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^reg/$', views.reg, name='reg'),
     url(r'^index/$', views.index, name='index'),
     url(r'^active/(?P<token>(.*))/$', views.active, name='active'),
-    url(r'^logout_view/$', views.logout_view, name='logout_view')
+    url(r'^logout_view/$', views.logout_view, name='logout_view'),
+    url(r'^post_question/$', views.post_question, name='post_question')
 ]

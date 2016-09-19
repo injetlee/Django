@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
+from zhihu.models import Question
 
 from django.urls import reverse
 from django.contrib.auth import authenticate, login as loginin, logout
@@ -88,7 +89,12 @@ def reg(request):
 def index(request):
     if request.user.is_authenticated():
         username = request.user.username
-        return render(request, 'zhihu/index.html', {'name': username})
+        latest_question = Question.objects.all()
+        context = {
+            'latest_question': latest_question,
+            'name': username
+        }
+        return render(request, 'zhihu/index.html', context)
     else:
         messages.add_message(request, messages.SUCCESS, '激活成功，欢迎登录')
         return HttpResponseRedirect(reverse('zhihu:login'))
@@ -136,3 +142,13 @@ class Token:
 
     # def remove_token(self, token):
 token_confirm = Token(django_settings.SECRET_KEY)
+
+
+def post_question(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['question']
+        if title != '':
+            insert = Question(title=title, content=content)
+            insert.save()
+        return redirect(reverse('zhihu:index'))

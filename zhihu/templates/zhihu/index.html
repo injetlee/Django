@@ -6,21 +6,37 @@
 
 {% block content %}
 <div class="container-fluid">
-<div class="row">
-  <div class="col-md-8">
-    <form>
-      <textarea class="form-control" rows="3 type="text" name="question" placeholder="请输入你的问题"></textarea><br>
-      <input type="submit" value="提交">
-    </form>
-  </div>
-  <div class="col-md-4">
+  <div class="row">
+    <div class="col-md-8">
+      <form action="{% url 'zhihu:post_question' %}" method='post'>
+      {% csrf_token %}
+        <input class="form-control" type="text" name="title" placeholder="请输入你的问题"><br>
+        <textarea class="form-control" rows="3 type="text" name="question" placeholder="请输入问题详细描述"></textarea><br>
+          <div style="float:right"><button type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
+          </div>
+      </form>
+    
+    
+    {% if latest_question %}
+      <ul>
+        {% for question in latest_question %}
+          <li>问题：{{question.title}}</li>
+          <li>内容：{{question.content}}</li><br>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>当前没有问题</p>
+    {% endif %}
+    </div>
+
+    <div class="col-md-4">
       <ul>
       <li>我的收藏</li>
       <li>我关注的问题</li>
       <li>邀请我回答的问题</li>
       </ul>
+    </div>
   </div>
-</div>
 </div>
 
 
