@@ -1,0 +1,21 @@
+{% extends 'content.html' %}
+{% block title %}创建新问题{% endblock %}
+{% block nav %}
+{{block.super}}
+{% endblock %}
+
+{% block content %}
+<div style="width:800px;margin:auto;">
+    <form action="{% url 'zhihu:post_question' %}" method='post'>
+    {% csrf_token %}
+    <input class="form-control" type="text" name="title" placeholder="请输入你的问题"><br>
+    <textarea class="form-control" rows="3 type="text" name="question" placeholder="请输入问题详细描述"></textarea><br>
+      <div style="float:right"><button type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
+      </div>
+    </form>
+</div>
+      
+
+
+
+{% endblock %}

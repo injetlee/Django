@@ -89,7 +89,7 @@ def reg(request):
 def index(request):
     if request.user.is_authenticated():
         username = request.user.username
-        latest_question = Question.objects.all()
+        latest_question = Question.objects.order_by('id')[::-1]
         context = {
             'latest_question': latest_question,
             'name': username
@@ -152,3 +152,8 @@ def post_question(request):
             insert = Question(title=title, content=content)
             insert.save()
         return redirect(reverse('zhihu:index'))
+
+
+@login_required
+def create_question(request):
+    return render(request, 'zhihu/create_question.html')
