@@ -15,25 +15,37 @@
           <div style="float:right"><button type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
           </div>
       </form> -->
-      <div style="width:100%;display:block;">
+      <!-- <div>
         <ul>
         <li style="float:left;font-family: 'Helvetica Neue' ,Helvetica,Arial,sans-serif;font-size:25pt;list-style-type:none;"><a href={% url "zhihu:create_question" %}><span class="glyphicon glyphicon-plus"></span>&nbsp;提问</a></li>
         <li style="float:left;margin-left:50px;float:left;font-family: 'Helvetica Neue' ,Helvetica,Arial,sans-serif;font-size:25pt;list-style-type:none;"><span class="glyphicon glyphicon-pencil"></span>&nbsp;写文章</li>
         </ul>
+      </div> -->
+      <div>
+        <ul>
+        <p style="font-family: 'Helvetica Neue' ,Helvetica,Arial,sans-serif;font-size:25pt;list-style-type:none;"><a href={% url "zhihu:create_question" %}><span class="glyphicon glyphicon-plus"></span>&nbsp;提问</a><span style="margin-left:300px;" class="glyphicon glyphicon-pencil"></span>&nbsp;写文章</p>
+        </ul>
       </div>
+    <style type="text/css">
+      .content{border:1px #340AD5 solid;height:200px;margin:15px 20px;}
+    </style>
     
-    <div>
     {% if latest_question %}
-      <ul>
+      
         {% for question in latest_question %}
+        <div>
+        <ul class="content">
+          <li>{{name}}</li>
           <li>问题：{{question.title}}</li>
           <li>内容：{{question.content}}</li><br>
+        </ul>
+        </div>
         {% endfor %}
-      </ul>
+      
     {% else %}
       <p>当前没有问题</p>
     {% endif %}
-    </div>
+    
     </div>
 
     <div class="col-md-4">
