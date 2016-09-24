@@ -126,6 +126,6 @@ STATIC_URL = '/static/'
 
 EMAIL_HOST = 'smtp.126.com'
 EMAIL_HOST_USER = 'liyingjie26@126.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'ipnumkmbpiyteftt'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True

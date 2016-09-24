@@ -149,7 +149,8 @@ def post_question(request):
         title = request.POST['title']
         content = request.POST['question']
         if title != '':
-            insert = Question(title=title, content=content)
+            user = User.objects.get(username=request.user.username)
+            insert = user.question_set.create(title=title, content=content)
             insert.save()
         return redirect(reverse('zhihu:index'))
 
