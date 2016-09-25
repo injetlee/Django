@@ -22,7 +22,8 @@
         </ul>
       </div> -->
       <style>
-        .title{font-family:"微软雅黑";font-size:25pt;list-style-type:none;}
+        li {list-style-type:none;}
+        .title{font-family:"微软雅黑";font-size:25pt;}
         .position{float:left;margin-right:300px;}
       </style>
       <div>
@@ -43,7 +44,7 @@
         <div>
         <ul class="content">
           <li>{{question.user}}</li>
-          <li>问题：{{question.title}}</li>
+          <li>问题：{{question.title}}提问于：{{question.updatedate}}</li>
           <li>内容：{{question.content}}</li><br>
         </ul>
         </div>

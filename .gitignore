@@ -2,3 +2,4 @@
 *.so
 /mysite/mysite/__pycache__/*
 /mysite/mysite/__pycache__
+/zhuhu/migrations/*
