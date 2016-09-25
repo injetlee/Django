@@ -5,6 +5,17 @@
 {% endblock %}
 
 {% block content %}
+      <style>
+        li {list-style-type:none;}
+        .title{font-family:"微软雅黑";font-size:25pt;}
+        .position{float:left;margin-right:300px;}
+        .content {color:#259;font-size:14px;font-weight:700;border-top:1px solid #eee;margin-top:15px;}
+        .username {color:inherit;font-size:14px;font-weight:700;}
+        .date::before {content:",";}
+        .date {color:#999;}
+        .main {line-height:1.7;}
+
+      </style>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
@@ -21,11 +32,7 @@
         <li style="float:left;margin-left:50px;float:left;font-family: 'Helvetica Neue' ,Helvetica,Arial,sans-serif;font-size:25pt;list-style-type:none;"><span class="glyphicon glyphicon-pencil"></span>&nbsp;写文章</li>
         </ul>
       </div> -->
-      <style>
-        li {list-style-type:none;}
-        .title{font-family:"微软雅黑";font-size:25pt;}
-        .position{float:left;margin-right:300px;}
-      </style>
+
       <div>
         <ul class="title">
         <li class="position"><a href={% url "zhihu:create_question" %}><span class="glyphicon glyphicon-plus"></span>&nbsp;提问</a>
@@ -34,18 +41,18 @@
         <span class="glyphicon glyphicon-pencil"></span>&nbsp;写文章</li>
         </ul>
       </div>
-    <style type="text/css">
-      .content{border:1px #340AD5 solid;height:200px;margin:15px 20px;}
-    </style>
     
     {% if latest_question %}
       
         {% for question in latest_question %}
-        <div>
-        <ul class="content">
-          <li>{{question.user}}</li>
-          <li>问题：{{question.title}}提问于：{{question.updatedate}}</li>
-          <li>内容：{{question.content}}</li><br>
+        <div class="main">
+        <ul>
+          
+          <li class="content">{{question.title}}</li>
+          <li class="username">{{question.user}}<span class="date">{{question.updatedate}}<span></li>
+          <li>内容：{{question.content}}</li>
+          <li class="position">评论</li>
+          <li>举报</li>
         </ul>
         </div>
         {% endfor %}

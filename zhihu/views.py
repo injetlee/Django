@@ -84,6 +84,13 @@ def reg(request):
     else:
         return render(request, 'zhihu/reg.html')
 
+import time as tt
+
+
+def format_time(time):
+    print(tt.strftime('%Y-%m-%d %H:%M:%S', time))
+    return tt.strftime('%Y-%m-%d %H:%M:%S', time)
+
 
 @login_required(login_url='/zhihu/login/')
 def index(request):
@@ -92,7 +99,7 @@ def index(request):
         latest_question = Question.objects.order_by('id')[::-1]
         context = {
             'latest_question': latest_question,
-            'name': username
+            'name': username,
         }
         return render(request, 'zhihu/index.html', context)
     else:
@@ -150,7 +157,9 @@ def post_question(request):
         content = request.POST['question']
         if title != '':
             user = User.objects.get(username=request.user.username)
-            insert = user.question_set.create(title=title, content=content)
+            updatetime = format_time(tt.localtime())
+            insert = user.question_set.create(
+                title=title, content=content, updatedate=updatetime)
             insert.save()
         return redirect(reverse('zhihu:index'))
 
