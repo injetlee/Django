@@ -19,23 +19,11 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
-      <!-- <form action="{% url 'zhihu:post_question' %}" method='post'>
-      {% csrf_token %}
-        <input class="form-control" type="text" name="title" placeholder="请输入你的问题"><br>
-        <textarea class="form-control" rows="3 type="text" name="question" placeholder="请输入问题详细描述"></textarea><br>
-          <div style="float:right"><button type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
-          </div>
-      </form> -->
-      <!-- <div>
-        <ul>
-        <li style="float:left;font-family: 'Helvetica Neue' ,Helvetica,Arial,sans-serif;font-size:25pt;list-style-type:none;"><a href={% url "zhihu:create_question" %}><span class="glyphicon glyphicon-plus"></span>&nbsp;提问</a></li>
-        <li style="float:left;margin-left:50px;float:left;font-family: 'Helvetica Neue' ,Helvetica,Arial,sans-serif;font-size:25pt;list-style-type:none;"><span class="glyphicon glyphicon-pencil"></span>&nbsp;写文章</li>
-        </ul>
-      </div> -->
+     
 
       <div>
         <ul class="title">
-        <li class="position"><a href={% url "zhihu:create_question" %}><span class="glyphicon glyphicon-plus"></span>&nbsp;提问</a>
+        <li class="position"><a href="{% url 'zhihu:create_question' %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;提问</a>
         </li>
         <li>
         <span class="glyphicon glyphicon-pencil"></span>&nbsp;写文章</li>
@@ -48,10 +36,10 @@
         <div class="main">
         <ul>
           
-          <li class="content">{{question.title}}</li>
+          <li class="content"><a href="{% url 'zhihu:post_question' question.id %}">{{question.title}}</a></li>
           <li class="username">{{question.user}}<span class="date">{{question.updatedate}}<span></li>
           <li>内容：{{question.content}}</li>
-          <li class="position">评论</li>
+          <li class="position"><a href={% url "zhihu:comment" question.id %}>评论</a></li>
           <li>举报</li>
         </ul>
         </div>

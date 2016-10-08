@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^index/$', views.index, name='index'),
     url(r'^active/(?P<token>(.*))/$', views.active, name='active'),
     url(r'^logout_view/$', views.logout_view, name='logout_view'),
-    url(r'^post_question/$', views.post_question, name='post_question'),
+    url(r'^post_question/(?P<id>[0-9]+)/$',
+        views.post_question, name='post_question'),
     url(r'^create_question/$', views.create_question, name='create_question'),
+    url(r'^comment/(?P<id>[0-9]+)/$', views.comment, name='comment'),
 ]

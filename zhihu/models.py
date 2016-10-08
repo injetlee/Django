@@ -19,3 +19,10 @@ class Question(models.Model):
     content = models.CharField(max_length=5000)
     user = models.ForeignKey(User)
     updatedate = models.CharField(max_length=255)
+
+
+class Comment(models.Model):
+    content = models.CharField(max_length=1000)
+    user = models.ForeignKey(User)
+    question = models.ForeignKey(Question)
+    updatedate = models.CharField(max_length=255)

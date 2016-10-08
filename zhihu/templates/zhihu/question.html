@@ -1,0 +1,29 @@
+{% extends 'content.html' %}
+{% block title %}Index{% endblock %}
+{% block nav %}
+{{block.super}}
+{% endblock %}
+{% block content %}
+<style>
+        li {list-style-type:none;}
+        .title{font-family:"微软雅黑";font-size:25pt;}
+        .position{float:left;margin-right:300px;}
+        .content {color:#259;font-size:14px;font-weight:700;margin-top:15px;}
+        .username {color:inherit;font-size:14px;font-weight:700;}
+        .date::before {content:",";}
+        .date {color:#999;}
+        .main {line-height:1.7;}
+
+      </style>
+<div class="main">
+        <ul>
+          
+          <li class="content">{{post.title}}</li>
+          <li class="username">{{post.user}}<span class="date">{{post.updatedate}}<span></li>
+          <li>内容：{{post.content}}</li>
+          <li class="position"><a href="{% url 'zhihu:comment' post.id%}">评论</a></li>
+          <li>举报</li>
+        </ul>
+        </div>
+
+{% endblock %}

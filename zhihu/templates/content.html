@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    {% block title %}Index-CaoHu{% endblock %}
+    <title>{% block title %}Index-CaoHu{% endblock %}</title>
 </head>
 <body>
     {% block nav %}
@@ -47,7 +47,7 @@
       <ul class="nav navbar-nav navbar-right">
         <!-- <li><a href="#">Link</a></li> -->
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><font size="4" color="white">{{name}}</font><span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><font size="4" color="white">{{user.username}}</font><span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">我的主页</a></li>
             <li><a href="#">设置</a></li>

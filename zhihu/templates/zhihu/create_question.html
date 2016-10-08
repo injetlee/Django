@@ -6,7 +6,7 @@
 
 {% block content %}
 <div style="width:800px;margin:auto;">
-    <form action="{% url 'zhihu:post_question' %}" method='post'>
+    <form action="{% url 'zhihu:index' %}" method='post'>
     {% csrf_token %}
     <input class="form-control" type="text" name="title" placeholder="请输入你的问题"><br>
     <textarea class="form-control" rows="3 type="text" name="question" placeholder="请输入问题详细描述"></textarea><br>

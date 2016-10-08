@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from zhihu.models import Question
+from zhihu.models import Question, Comment
 
 from django.urls import reverse
 from django.contrib.auth import authenticate, login as loginin, logout
@@ -95,6 +95,15 @@ def format_time(time):
 @login_required(login_url='/zhihu/login/')
 def index(request):
     if request.user.is_authenticated():
+        if request.method == 'POST':
+            title = request.POST['title']
+            content = request.POST['question']
+            if title != '':
+                user = User.objects.get(username=request.user.username)
+                updatetime = format_time(tt.localtime())
+                insert = user.question_set.create(
+                    title=title, content=content, updatedate=updatetime)
+                insert.save()
         username = request.user.username
         latest_question = Question.objects.order_by('id')[::-1]
         context = {
@@ -151,19 +160,32 @@ class Token:
 token_confirm = Token(django_settings.SECRET_KEY)
 
 
-def post_question(request):
-    if request.method == 'POST':
-        title = request.POST['title']
-        content = request.POST['question']
-        if title != '':
-            user = User.objects.get(username=request.user.username)
-            updatetime = format_time(tt.localtime())
-            insert = user.question_set.create(
-                title=title, content=content, updatedate=updatetime)
-            insert.save()
-        return redirect(reverse('zhihu:index'))
+def post_question(request, id):
+    # if request.method == 'POST':
+    #     title = request.POST['title']
+    #     content = request.POST['question']
+    #     if title != '':
+    #         user = User.objects.get(username=request.user.username)
+    #         updatetime = format_time(tt.localtime())
+    #         insert = user.question_set.create(
+    #             title=title, content=content, updatedate=updatetime)
+    #         insert.save()
+    #     return redirect(reverse('zhihu:index'))
+    post = Question.objects.get(pk=id)
+    return render(request, 'zhihu/question.html', {'post': post})
 
 
 @login_required
 def create_question(request):
     return render(request, 'zhihu/create_question.html')
+
+
+@login_required
+def comment(request, id):
+    if request.method == 'POST':
+        comment = request.POST['comment']
+        user = User.objects.get(username=request.user.username)
+        post = Question.objects.get(pk=id)
+        query = Comment.objects.create(
+            content=comment, user=user, question=post, updatedate=format_time(tt.localtime()))
+    return render(request, 'zhihu/comment.html', {'id': id})
