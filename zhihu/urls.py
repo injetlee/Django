@@ -12,5 +12,5 @@ urlpatterns = [
     url(r'^post_question/(?P<id>[0-9]+)/$',
         views.post_question, name='post_question'),
     url(r'^create_question/$', views.create_question, name='create_question'),
-    url(r'^comment/(?P<id>[0-9]+)/$', views.comment, name='comment'),
+    #url(r'^comment/(?P<id>[0-9]+)/$', views.comment, name='comment'),
 ]

@@ -13,17 +13,43 @@
         .date::before {content:",";}
         .date {color:#999;}
         .main {line-height:1.7;}
+        .border{border-top:solid #eee 1px;}
 
       </style>
-<div class="main">
-        <ul>
-          
-          <li class="content">{{post.title}}</li>
-          <li class="username">{{post.user}}<span class="date">{{post.updatedate}}<span></li>
-          <li>内容：{{post.content}}</li>
-          <li class="position"><a href="{% url 'zhihu:comment' post.id%}">评论</a></li>
-          <li>举报</li>
-        </ul>
-        </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="main">
+              <ul>
+                <li class="content">{{post.title}}</li>
+                <li class="username">{{post.user}}<span class="date">{{post.updatedate}}</span></li>
+                <li>内容：{{post.content}}</li>
+                <div>
+                  <h3 class="border">{{quantity}}条回答</h3>
+                </div>
+                <div>
+                  {% for answer in answers %}
+                   <div class="border">
+                    <li class="username">{{answer.user}}<span class="date">{{answer.updatedate}}<span></li>
+                    <li>{{answer.content}}</li>
+                   </div>
+                  {% endfor %}
+                </div>
+                <form action="{% url 'zhihu:post_question' post.id %}" method='post'>
+                {% csrf_token %}
+                  <textarea class="form-control" rows="3" type="text" name="comment" placeholder="请输入答案"></textarea>
+                  <button style="float:right;margin-top:15px;" type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
+                </form>
+              </ul>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+    <p>呵呵呵</p>
+    </div>
+  </div>
+</div>
+
+
 
 {% endblock %}

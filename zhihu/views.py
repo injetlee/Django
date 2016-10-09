@@ -171,8 +171,16 @@ def post_question(request, id):
     #             title=title, content=content, updatedate=updatetime)
     #         insert.save()
     #     return redirect(reverse('zhihu:index'))
+    if request.method == 'POST':
+        comment = request.POST['comment']
+        user = User.objects.get(username=request.user.username)
+        post = Question.objects.get(pk=id)
+        query = Comment.objects.create(
+            content=comment, user=user, question=post, updatedate=format_time(tt.localtime()))
     post = Question.objects.get(pk=id)
-    return render(request, 'zhihu/question.html', {'post': post})
+    answer_query = Comment.objects.filter(question=id).order_by('-updatedate')
+    answer_quantity = answer_query.count()
+    return render(request, 'zhihu/question.html', {'post': post, 'quantity': answer_quantity, 'answers': answer_query})
 
 
 @login_required
@@ -180,12 +188,12 @@ def create_question(request):
     return render(request, 'zhihu/create_question.html')
 
 
-@login_required
-def comment(request, id):
-    if request.method == 'POST':
-        comment = request.POST['comment']
-        user = User.objects.get(username=request.user.username)
-        post = Question.objects.get(pk=id)
-        query = Comment.objects.create(
-            content=comment, user=user, question=post, updatedate=format_time(tt.localtime()))
-    return render(request, 'zhihu/comment.html', {'id': id})
+# @login_required
+# def comment(request, id):
+#     if request.method == 'POST':
+#         comment = request.POST['comment']
+#         user = User.objects.get(username=request.user.username)
+#         post = Question.objects.get(pk=id)
+#         query = Comment.objects.create(
+#             content=comment, user=user, question=post, updatedate=format_time(tt.localtime()))
+#     return render(request, 'zhihu/comment.html', {'id': id})

@@ -6,6 +6,7 @@
 
 {% block content %}
       <style>
+        *{margin:0;}
         li {list-style-type:none;}
         .title{font-family:"微软雅黑";font-size:25pt;}
         .position{float:left;margin-right:300px;}
@@ -39,7 +40,7 @@
           <li class="content"><a href="{% url 'zhihu:post_question' question.id %}">{{question.title}}</a></li>
           <li class="username">{{question.user}}<span class="date">{{question.updatedate}}<span></li>
           <li>内容：{{question.content}}</li>
-          <li class="position"><a href={% url "zhihu:comment" question.id %}>评论</a></li>
+          <li class="position"><a href={% url "zhihu:post_question" question.id %}>回答</a></li>
           <li>举报</li>
         </ul>
         </div>
