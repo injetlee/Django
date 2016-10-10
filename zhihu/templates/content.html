@@ -53,7 +53,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><font size="4" color="white">{{user.username}}</font><span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">我的主页</a></li>
-            <li><a href="#">设置</a></li>
+            <li><a href="{% url 'zhihu:personal' %}">设置</a></li>
             <li><a href="{% url 'zhihu:logout_view' %}">退出</a></li>
             <li class="divider"></li>
             <li><a href="#">Separated link</a></li>

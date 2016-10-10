@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from zhihu.models import Question, Comment
+from zhihu.models import Question, Comment, UserPersonal
 
 from django.urls import reverse
 from django.contrib.auth import authenticate, login as loginin, logout
@@ -106,6 +106,7 @@ def index(request):
                 insert.save()
         username = request.user.username
         latest_question = Question.objects.order_by('id')[::-1]
+        # print(latest_question[0].user.userpersonal.signature)
         context = {
             'latest_question': latest_question,
             'name': username,
@@ -186,6 +187,23 @@ def post_question(request, id):
 @login_required
 def create_question(request):
     return render(request, 'zhihu/create_question.html')
+
+
+@login_required
+def personal(request):
+    if request.method == 'POST':
+        personal_signature = request.POST['signature']
+        user_id = request.user.id
+        if user_id:
+            query = User.objects.get(pk=user_id)
+            #validate_exists = UserPersonal.objects.get(user_id=user_id)
+            if UserPersonal.objects.filter(user=query):
+                validate_exists = UserPersonal.objects.filter(user=query)
+                validate_exists.delete()
+                temp = UserPersonal(signature=personal_signature, user=query)
+                temp.save()
+
+    return render(request, 'zhihu/personal.html')
 
 
 # @login_required

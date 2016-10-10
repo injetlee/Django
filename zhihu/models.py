@@ -12,6 +12,9 @@ from django.contrib.auth.models import User
 
 #     def __str__(self):
 #         return self.name
+class UserPersonal(models.Model):
+    user = models.OneToOneField(User)
+    signature = models.CharField(max_length=60)
 
 
 class Question(models.Model):

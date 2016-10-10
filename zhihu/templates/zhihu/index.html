@@ -38,7 +38,16 @@
         <ul>
           
           <li class="content"><a href="{% url 'zhihu:post_question' question.id %}">{{question.title}}</a></li>
-          <li class="username">{{question.user}}<span class="date">{{question.updatedate}}<span></li>
+          <li class="username">{{question.user}}
+          {% if question.user.userpersonal.signature %}
+          <span class="date">{{question.user.userpersonal.signature}},
+          {{question.updatedate}}<span>
+          {% else %}
+          <span class="date">
+          {{question.updatedate}}
+          {% endif %}
+          <span>
+          </li>
           <li>内容：{{question.content}}</li>
           <li class="position"><a href={% url "zhihu:post_question" question.id %}>回答</a></li>
           <li>举报</li>
