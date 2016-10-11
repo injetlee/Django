@@ -15,6 +15,8 @@ from django.contrib.auth.models import User
 class UserPersonal(models.Model):
     user = models.OneToOneField(User)
     signature = models.CharField(max_length=60)
+    area = models.CharField(max_length=50, blank=True)
+    sex = models.CharField(max_length=30, blank=True)
 
 
 class Question(models.Model):

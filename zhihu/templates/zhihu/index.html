@@ -53,10 +53,9 @@
           <li>举报</li>
         </ul>
         </div>
+        {% empty %}
+        <p>当前没有问题</p>
         {% endfor %}
-      
-    {% else %}
-      <p>当前没有问题</p>
     {% endif %}
     
     </div>

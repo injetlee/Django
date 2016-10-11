@@ -5,13 +5,22 @@
 {% endblock %}
 <style>
     .form-control{width:800px;}
+
 </style>
 {% block content %}
-<h3>修改资料</h3>
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#"><span class="link">基本资料</span></a></li>
+  <li role="presentation"><a href="#">账号和密码</a></li>
+</ul>
 <div class="col-sm-8">
     <form action="{% url 'zhihu:personal' %}" method='post'>
     {% csrf_token %}
-        <input  type="text" class="form-control col-sm-2" id="inputEmail3" name='signature' placeholder="一句话描述自己，不超过20个字" > 
+    <h5>个性签名</h5>
+        <input  type="text" class="form-control col-sm-2" id="inputEmail3" value="{{signature}}" name='signature' placeholder="一句话描述自己，不超过20个字" > 
+    <h5>居住地</h5>
+        <input  type="text" class="form-control col-sm-2" id="inputEmail3" value="{{area}}" name='area' placeholder="居住地" >
+        <h5>男性：<input type="radio" name="sex" value="male">
+        女性：<input  type="radio" name="sex" value="female"></h5>
         <button style="float:right;margin-top:15px;" type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
     </form>
 </div>

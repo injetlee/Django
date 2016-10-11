@@ -191,19 +191,30 @@ def create_question(request):
 
 @login_required
 def personal(request):
+    user_id = request.user.id
+    query = User.objects.get(pk=user_id)
+    # signature = query.userpersonal.signature
+    # area = query.userpersonal.area
+
     if request.method == 'POST':
         personal_signature = request.POST['signature']
-        user_id = request.user.id
+        personal_area = request.POST['area']
+        sex = request.POST.get('sex', False)
+
         if user_id:
-            query = User.objects.get(pk=user_id)
+            #query = User.objects.get(pk=user_id)
             #validate_exists = UserPersonal.objects.get(user_id=user_id)
             if UserPersonal.objects.filter(user=query):
                 validate_exists = UserPersonal.objects.filter(user=query)
                 validate_exists.delete()
-                temp = UserPersonal(signature=personal_signature, user=query)
-                temp.save()
+            temp = UserPersonal(signature=personal_signature,
+                                user=query, area=personal_area, sex=sex)
+            temp.save()
+    signature = query.userpersonal.signature
+    area = query.userpersonal.area
+    sex = query.userpersonal.sex
 
-    return render(request, 'zhihu/personal.html')
+    return render(request, 'zhihu/personal.html', {'signature': signature, 'area': area, 'sex': sex})
 
 
 # @login_required
