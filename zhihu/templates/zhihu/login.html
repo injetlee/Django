@@ -2,6 +2,12 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#">Home</a></li>
+  <li role="presentation"><a href="#">Profile</a></li>
+  <li role="presentation"><a href="#">Messages</a></li>
+</ul>
+
 {% if messages %}
   <ul class="alert alert-success">
     {% for message in messages %}

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div style="width:800px;margin:auto;">
+<div class="content-margin" style="width:800px;">
     <form action="{% url 'zhihu:index' %}" method='post'>
     {% csrf_token %}
     <input class="form-control" type="text" name="title" placeholder="请输入你的问题"><br>

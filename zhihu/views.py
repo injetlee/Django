@@ -210,9 +210,14 @@ def personal(request):
             temp = UserPersonal(signature=personal_signature,
                                 user=query, area=personal_area, sex=sex)
             temp.save()
-    signature = query.userpersonal.signature
-    area = query.userpersonal.area
-    sex = query.userpersonal.sex
+    try:
+        signature = query.userpersonal.signature
+        area = query.userpersonal.area
+        sex = query.userpersonal.sex
+    except:
+        signature = ''
+        area = ''
+        sex = ''
 
     return render(request, 'zhihu/personal.html', {'signature': signature, 'area': area, 'sex': sex})
 
@@ -226,3 +231,6 @@ def personal(request):
 #         query = Comment.objects.create(
 #             content=comment, user=user, question=post, updatedate=format_time(tt.localtime()))
 #     return render(request, 'zhihu/comment.html', {'id': id})
+@login_required
+def reset_pwd(request):
+    return render(request, 'zhihu/reset_pwd.html')

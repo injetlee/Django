@@ -5,19 +5,23 @@
 {% endblock %}
 <style>
     .form-control{width:800px;}
+    .abc{
+        height:100px;
+    }
+
 </style>
 {% block content %}
 <div class="content-margin">
-    <ul class="nav nav-tabs abc" role="tablist">
-      <li role="presentation" class="active"><a href="#"><span class="link">基本资料</span></a></li>
-      <li role="presentation"><a href="{% url 'zhihu:reset_pwd' %}">账号和密码</a></li>
+    <ul class="nav nav-tabs abc" id=myTab role="tablist">
+      <li role="presentation" class="active"><a href="{% url 'zhihu:personal'%}"><span class="link">基本资料</span></a></li>
+      <li role="presentation" class="myTab"><a href="#">账号和密码</a></li>
     </ul>
 
     <div class="col-sm-8">
         <form action="{% url 'zhihu:personal' %}" method='post'>
         {% csrf_token %}
-        <h5>个性签名</h5>
-            <input  type="text" class="form-control col-sm-2" id="inputEmail3" value="{{signature}}" name='signature' placeholder="一句话描述自己，不超过20个字" > 
+        <h5>修改密码</h5>
+            <input  type="text" class="form-control col-sm-2" id="inputEmail3" value="{{signature}}" name='signature' placeholder="请输入你的注册邮箱" > 
         <h5>居住地</h5>
             <input  type="text" class="form-control col-sm-2" id="inputEmail3" value="{{area}}" name='area' placeholder="居住地" >
             <h5>男性：<input type="radio" name="sex" value="male">

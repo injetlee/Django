@@ -13,5 +13,5 @@ urlpatterns = [
         views.post_question, name='post_question'),
     url(r'^create_question/$', views.create_question, name='create_question'),
     url(r'^personal/$', views.personal, name='personal'),
-    #url(r'^comment/(?P<id>[0-9]+)/$', views.comment, name='comment'),
+    url(r'^reset_pwd/$', views.reset_pwd, name='reset_pwd'),
 ]

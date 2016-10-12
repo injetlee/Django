@@ -4640,6 +4640,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse {
   background-color: #222;
   border-color: #080808;
+  /* my_css */
+
 }
 .navbar-inverse .navbar-brand {
   color: #9d9d9d;
@@ -6801,5 +6803,10 @@ button.close {
 /*# sourceMappingURL=bootstrap.css.map */
 .navbar-inverse {
   background-color: #0665c4 !important;
-  border-color: #e7e7e7;
+  border-color: #e7e7e7 !important;
+}
+.navbar-mycss{
+position:fixed !important;
+width:100% !important;
+z-index:1 !important;
 }
