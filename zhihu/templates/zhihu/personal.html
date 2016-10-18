@@ -7,13 +7,21 @@
     .form-control{width:800px;}
 </style>
 {% block content %}
-<div class="content-margin">
-    <ul class="nav nav-tabs abc" role="tablist">
-      <li role="presentation" class="active"><a href="#"><span class="link">基本资料</span></a></li>
-      <li role="presentation"><a href="{% url 'zhihu:reset_pwd' %}">账号和密码</a></li>
-    </ul>
 
-    <div class="col-sm-8">
+
+    <div class="col-sm-8 content-margin">
+            <div class="btn-group btn-group-justified">
+          <div class="btn-group">
+            <a href="{% url 'zhihu:personal'%}"><button type="button" class="btn btn-primary">个人资料</button></a>
+          </div>
+          <div class="btn-group">
+            <a href="{% url 'zhihu:reset_pwd' %}"><button type="button" class="btn btn-primary">账号和密码</button></a>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary">消息设置</button>
+          </div>
+        </div>
+
         <form action="{% url 'zhihu:personal' %}" method='post'>
         {% csrf_token %}
         <h5>个性签名</h5>
@@ -25,5 +33,4 @@
             <button style="float:right;margin-top:15px;" type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
         </form>
     </div>
-</div>
 {% endblock %}

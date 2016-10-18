@@ -72,7 +72,8 @@ def reg(request):
         token = token_confirm.generate_token(username)
         context = {'username': username,
                    'token': request.build_absolute_uri(
-                       reverse('zhihu:active', args=[token, ]))}
+                       reverse('zhihu:active', args=[token, ])),
+                   'info': '欢迎你注册草乎，请点击下面链接激活你的账户', }
         t = loader.get_template('zhihu/email.html')
         html_content = t.render(Context(context))
 
@@ -233,4 +234,20 @@ def personal(request):
 #     return render(request, 'zhihu/comment.html', {'id': id})
 @login_required
 def reset_pwd(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        query = User.objects.filter(email=email)
+        if query is not None:
+            token = token_confirm.generate_token(email)
+            context = {'username': username,
+                       'token': request.build_absolute_uri(
+                           reverse('zhihu:active', args=[token, ])),
+                       'info': '点击下面链接修改密码', }
+            t = loader.get_template('zhihu/email.html')
+            html_content = t.render(Context(context))
+
+            send_mail('草乎认证邮件', [email],
+                      django_settings.EMAIL_HOST_USER, html_content)
+            messages.add_message(
+                request, messages.SUCCESS, '注册成功，请前往邮箱进行激活后登录')
     return render(request, 'zhihu/reset_pwd.html')

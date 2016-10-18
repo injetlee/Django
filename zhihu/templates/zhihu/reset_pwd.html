@@ -11,21 +11,26 @@
 
 </style>
 {% block content %}
-<div class="content-margin">
-    <ul class="nav nav-tabs abc" id=myTab role="tablist">
-      <li role="presentation" class="active"><a href="{% url 'zhihu:personal'%}"><span class="link">基本资料</span></a></li>
-      <li role="presentation" class="myTab"><a href="#">账号和密码</a></li>
-    </ul>
+
 
     <div class="col-sm-8">
+            <div class="btn-group btn-group-justified">
+          <div class="btn-group">
+            <a href="{% url 'zhihu:personal'%}"><button type="button" class="btn btn-primary">个人资料</button></a>
+          </div>
+          <div class="btn-group">
+            <a href="{% url 'zhihu:reset_pwd' %}"><button type="button" class="btn btn-primary">账号和密码</button></a>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary">消息设置</button>
+          </div>
+        </div>
+
         <form action="{% url 'zhihu:personal' %}" method='post'>
         {% csrf_token %}
         <h5>修改密码</h5>
-            <input  type="text" class="form-control col-sm-2" id="inputEmail3" value="{{signature}}" name='signature' placeholder="请输入你的注册邮箱" > 
-        <h5>居住地</h5>
-            <input  type="text" class="form-control col-sm-2" id="inputEmail3" value="{{area}}" name='area' placeholder="居住地" >
-            <h5>男性：<input type="radio" name="sex" value="male">
-            女性：<input  type="radio" name="sex" value="female"></h5>
+            <input  type="text" class="form-control col-sm-2" id="inputEmail3" name='email' placeholder="请输入你的注册邮箱" > 
+        
             <button style="float:right;margin-top:15px;" type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
         </form>
     </div>
