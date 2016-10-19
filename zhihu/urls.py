@@ -13,5 +13,6 @@ urlpatterns = [
         views.post_question, name='post_question'),
     url(r'^create_question/$', views.create_question, name='create_question'),
     url(r'^personal/$', views.personal, name='personal'),
+    url(r'^forget_pwd/$', views.forget_pwd, name='forget_pwd'),
     url(r'^reset_pwd/$', views.reset_pwd, name='reset_pwd'),
 ]

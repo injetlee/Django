@@ -232,14 +232,14 @@ def personal(request):
 #         query = Comment.objects.create(
 #             content=comment, user=user, question=post, updatedate=format_time(tt.localtime()))
 #     return render(request, 'zhihu/comment.html', {'id': id})
-@login_required
-def reset_pwd(request):
+
+def forget_pwd(request):
     if request.method == 'POST':
         email = request.POST['email']
         query = User.objects.filter(email=email)
         if query is not None:
             token = token_confirm.generate_token(email)
-            context = {'username': username,
+            context = {'username': '',
                        'token': request.build_absolute_uri(
                            reverse('zhihu:active', args=[token, ])),
                        'info': '点击下面链接修改密码', }
@@ -250,4 +250,8 @@ def reset_pwd(request):
                       django_settings.EMAIL_HOST_USER, html_content)
             messages.add_message(
                 request, messages.SUCCESS, '注册成功，请前往邮箱进行激活后登录')
+    return render(request, 'zhihu/forget_pwd.html')
+
+
+def reset_pwd(request):
     return render(request, 'zhihu/reset_pwd.html')

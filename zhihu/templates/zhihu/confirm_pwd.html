@@ -1,0 +1,30 @@
+{% extends 'content.html' %}
+{% block title %}设置{% endblock %}
+{% block nav %}
+{{block.super}}
+{% endblock %}
+<style>
+    .form-control{width:800px;}
+</style>
+{% block content %}
+
+
+    <div class="col-sm-8 content-margin">
+        {% if messages %}
+          <ul class="alert alert-success">
+        {% for message in messages %}
+              {{message}}
+        {% endfor %}</ul>
+        {% endif %}
+
+
+        <form action="{% url 'zhihu:forget_pwd' %}" method='post'>
+        {% csrf_token %}
+        <h5>修改密码</h5>
+            <input  type="text" class="form-control col-sm-2" id="inputEmail3" name='email' placeholder="请输入你的新密码" >
+        
+            <button style="float:right;margin-top:15px;" type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
+        </form>
+    </div>
+</div>
+{% endblock %}

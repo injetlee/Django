@@ -4,35 +4,43 @@
 {{block.super}}
 {% endblock %}
 <style>
-    .form-control{width:800px;}
-    .abc{
-        height:100px;
-    }
-
+    .form-control{width:800px;margin-top:20px;}
+    input{margin-top:20px;}
 </style>
 {% block content %}
 
 
-    <div class="col-sm-8">
-            <div class="btn-group btn-group-justified">
-          <div class="btn-group">
-            <a href="{% url 'zhihu:personal'%}"><button type="button" class="btn btn-primary">个人资料</button></a>
-          </div>
-          <div class="btn-group">
-            <a href="{% url 'zhihu:reset_pwd' %}"><button type="button" class="btn btn-primary">账号和密码</button></a>
-          </div>
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary">消息设置</button>
-          </div>
-        </div>
+    <div class="col-sm-8 content-margin">
+        {% if messages %}
+          <ul class="alert alert-success">
+        {% for message in messages %}
+              {{message}}
+        {% endfor %}</ul>
+        {% endif %}
 
-        <form action="{% url 'zhihu:personal' %}" method='post'>
+    <div class="btn-group btn-group-justified">
+        <div class="btn-group">
+            <a href="{% url 'zhihu:personal'%}"><button type="button" class="btn btn-primary">个人资料</button></a>
+        </div>
+        <div class="btn-group">
+            <a href="{% url 'zhihu:reset_pwd' %}"><button type="button" class="btn btn-primary">账号和密码</button></a>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary">消息设置</button>
+        </div>
+    </div>
+        <div class="input1">
+        <form action="{% url 'zhihu:reset_pwd' %}" method='post'>
         {% csrf_token %}
         <h5>修改密码</h5>
-            <input  type="text" class="form-control col-sm-2" id="inputEmail3" name='email' placeholder="请输入你的注册邮箱" > 
+            <input  type="text" class="form-control col-sm-2" id="inputEmail3" name='email' placeholder="请输入你的注册邮箱" >
+            <input  type="password" class="form-control col-sm-2" id="inputEmail3" name='pwd1' placeholder="请输入新密码" >
+            <input  type="password" class="form-control col-sm-2" id="inputEmail3" name='pwd2' placeholder="请确认新密码" > 
         
             <button style="float:right;margin-top:15px;" type="submit" class="btn btn-primary btn-lg"><font size=3>提交</font></button>
+
         </form>
+        </div>
     </div>
 </div>
 {% endblock %}
