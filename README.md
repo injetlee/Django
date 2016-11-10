@@ -1,2 +1,2 @@
-# Django
-## 知乎
+# Django练习
+
